@@ -1,0 +1,72 @@
+/*
+ *    Copyright 2017 SIP3.IO CORP.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+.participant {
+}
+
+text {
+    font-family: Arial;
+}
+
+.participant-text {
+    fill: black;
+    font-weight: bold;
+}
+
+.pre-post-text {
+    fill: grey;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.participant line.underline {
+    stroke: grey;
+    stroke-width: 1;
+}
+
+.participant line.leg {
+    stroke: grey;
+    stroke-dasharray: 5;
+}
+
+.link-text {
+    fill: grey;
+    font-size: 15px;
+}
+
+.link-text-hover {
+    fill: black;
+    cursor: pointer;
+}
+
+.link .link-line {
+    stroke: lightskyblue;
+    stroke-width: 1;
+}
+
+.link {
+}
+
+.left-link-label {
+}
+
+.left-link-label-text {
+    font-size: 10px;
+    fill: grey;
+}
+
+.marker-arrow {
+    fill: lightskyblue;
+}

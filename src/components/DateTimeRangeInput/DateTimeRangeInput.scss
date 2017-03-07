@@ -1,0 +1,68 @@
+/*!
+ *    Copyright 2017 SIP3.IO CORP.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+@import "../commonVariables";
+
+div.daterangepicker {
+  div.ranges {
+    ul {
+      li {
+        color: $green-color;
+      }
+
+      li:hover {
+        background-color: #ccc;
+        border: 1px solid $green-color;
+        color: #fff;
+      }
+
+      li.active {
+        color: white;
+        background: $green-color;
+      }
+
+    }
+  }
+
+  div.daterangepicker_input {
+    input.form-control:focus, input.form-control.active {
+      border-color: $green-color;
+    }
+  }
+
+  div.calendar-table {
+    td.active {
+      background-color: $green-color;
+    }
+  }
+}
+
+.ranges li.active {
+  background-color: $green-color;
+  border: 1px solid $green-color;
+  color: #fff;
+}
+
+.hourselect, .minuteselect,
+.monthselect, .yearselect {
+    background: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0Ljk1IDEwIj48ZGVmcz48c3R5bGU+LmNscy0xe2ZpbGw6I2ZmZjt9LmNscy0ye2ZpbGw6IzQ0NDt9PC9zdHlsZT48L2RlZnM+PHRpdGxlPmFycm93czwvdGl0bGU+PHJlY3QgY2xhc3M9ImNscy0xIiB3aWR0aD0iNC45NSIgaGVpZ2h0PSIxMCIvPjxwb2x5Z29uIGNsYXNzPSJjbHMtMiIgcG9pbnRzPSIxLjQxIDQuNjcgMi40OCAzLjE4IDMuNTQgNC42NyAxLjQxIDQuNjciLz48cG9seWdvbiBjbGFzcz0iY2xzLTIiIHBvaW50cz0iMy41NCA1LjMzIDIuNDggNi44MiAxLjQxIDUuMzMgMy41NCA1LjMzIi8+PC9zdmc+) no-repeat 100% 50%;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    appearance: none;
+    width: 10em;
+    border: none;
+    border-bottom: 1px solid #757575;
+}

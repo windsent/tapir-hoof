@@ -1,0 +1,82 @@
+/*!
+ *    Copyright 2017 SIP3.IO CORP.
+ *
+ *    Licensed under the Apache License, Version 2.0 (the "License");
+ *    you may not use this file except in compliance with the License.
+ *    You may obtain a copy of the License at
+ *
+ *        http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *    Unless required by applicable law or agreed to in writing, software
+ *    distributed under the License is distributed on an "AS IS" BASIS,
+ *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *    See the License for the specific language governing permissions and
+ *    limitations under the License.
+ */
+@import "../commonVariables";
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+
+body {
+  color: $text-color !important;
+  background-color: #f0f0f1 !important;
+  font-family: 'Open Sans', 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  font-weight: 400;
+  font-size: 13px;
+}
+
+.main-content {
+  padding-top: 40px;
+}
+
+.layout {
+  min-height: 100%;
+}
+
+.content-wrapper {
+  height: 100%;
+}
+
+input.form-control {
+  &:focus {
+    border-color: $green-color;
+  }
+}
+
+h5 .h5 {
+  font-family: 'Open Sans', 'Source Sans Pro', sans-serif;
+}
+
+h1 {
+  font-size: 30px !important;
+}
+
+.btn-success {
+  background-color: $green-color !important;
+  border-color: $green-color !important;
+}
+
+.box.box-success {
+  //border-top-color: $green-color !important;
+  border-top: none !important;
+}
+
+.box-header {
+  color: $text-color !important;
+}
+
+.label-success {
+  background-color: $green-color !important;
+}
+
+.skin-green-light .content-wrapper {
+  border-left: 0px;
+}
+
+a:link {
+  color: $green-color
+}
+
+footer {
+  margin-bottom: 15px;
+}
+
