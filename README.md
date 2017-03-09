@@ -1,30 +1,34 @@
 # TAPIR Hoof #
 
-**Hoof** display provided by REST API data from **Twig**. Provides web-base user interface 
-including dashboard, search page, widgets and graphics. Offers paginated output of search results.
+**Hoof** displayes the data provided by REST API from **Twig**. 
+It provides web-based user interface including dashboard, search page, widgets and graphics. 
+It offers paginated output of search results.
+
 Fast, clean and simple.
 
-**Tapir Hoof** is static web content after build procedure. **Tapir Hoof** needs access only to **Twig**.
-**Tapir Hoof** can deploy on any http server, e.g. NGINX (https://www.nginx.com).
-External dependencies of UI is fonts Open Snas and Source Sans Pro. These fonts is requested from end user browser.
-**Tapir Hoof** functionality doesn't depended on these fonts and their use is a recommendation.
+**Tapir Hoof** is a static web content after the build procedure and requires access to **Twig** only.
+**Tapir Hoof** can be deployed on any http server, e.g. NGINX (https://www.nginx.com).
+External dependencies of the UI are Open Sans and Source Sans Pro fonts. 
+These fonts are requested by end-user's browser.
+**Tapir Hoof** functionality doesn't depend on these fonts and that's just a recommendation.
 
 ![hoof.png](https://cloud.githubusercontent.com/assets/20966590/23656994/7b72803c-0355-11e7-8d2d-5cd56ced9c36.png)
 
 ### Recomendation ###
-We recommended use NGINX HTTP Server as front end server.
-Described solution bellow will depends on NGINX HTTP server configuration.
+We recommend to use NGINX HTTP Server as front-end server.
+As it's described bellow the solution depends on NGINX HTTP server configuration.
 
 ### Build ###
-For build application you should use NPM (https://www.npmjs.com), it needs to do before installation procedure.
-Building components:
+To build the application you need to use NPM (https://www.npmjs.com).
+NPM has to be installed before the solutuon deployment begins.
+To build components:
 ```
 # cd <path of Tapir Hoof repository>
 # npm run distclean
 # npm install
 # npm run build
 ```
-Static content will package to ./htdocs directory.
+Static content will be packaged to ./htdocs directory.
 
 ### Installation ###
 * Copy all build files from ./htdocs to web directory on HTTP server. Usually, web directory is /var/www/html. <br> If you use SELinux, you need change security context for it.
@@ -58,4 +62,4 @@ server {
 ```
 
 Dev environment will be available at http://localhost:8080.
-Needs access to **Tapir Twig**. Default location is http://tapir-twig.dev.sip3.io.
+It needs access to **Tapir Twig**. Default location is http://tapir-twig.dev.sip3.io.
