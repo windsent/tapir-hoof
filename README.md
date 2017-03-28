@@ -12,7 +12,7 @@ External dependencies of the UI are Open Sans and Source Sans Pro fonts.
 These fonts are requested by end-user's browser.
 **Tapir Hoof** functionality doesn't depend on these fonts and that's just a recommendation.
 
-![hoof.png](https://cloud.githubusercontent.com/assets/20966590/23656994/7b72803c-0355-11e7-8d2d-5cd56ced9c36.png)
+![hoof.png](https://cloud.githubusercontent.com/assets/16978841/24424428/328ffb6e-1409-11e7-8d9a-b8ac0b1ac5d4.png)
 
 ### Recomendation ###
 We recommend to use NGINX HTTP Server as front-end server.
