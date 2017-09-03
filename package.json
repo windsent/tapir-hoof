@@ -1,6 +1,6 @@
 {
   "name": "tapir-hoof",
-  "version": "2.0.20170307-SNAPSHOT",
+  "version": "2.0.20170903-SNAPSHOT",
   "description": "Tapir Hoof",
   "main": "index.js",
   "scripts": {

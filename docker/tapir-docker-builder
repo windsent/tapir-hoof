@@ -1,0 +1,154 @@
+#!/bin/bash
+#/*
+# *    Copyright 2017 SIP3.IO CORP.
+# *
+# *    Licensed under the Apache License, Version 2.0 (the "License");
+# *    you may not use this file except in compliance with the License.
+# *    You may obtain a copy of the License at
+# *
+# *        http://www.apache.org/licenses/LICENSE-2.0
+# *
+# *    Unless required by applicable law or agreed to in writing, software
+# *    distributed under the License is distributed on an "AS IS" BASIS,
+# *    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# *    See the License for the specific language governing permissions and
+# *    limitations under the License.
+# */
+
+#
+# Script for build
+#
+# Version 1.1
+# Created by windsent (c) 2017
+#
+
+DOCKER_DIR=${PWD}
+MAIN_DIR=$DOCKER_DIR/..
+PACKAGE_DIR=$MAIN_DIR/package
+DOCKER_PATH=""
+NPM_PATH=""
+
+export PATH=$PATH:$NPM_PATH:$DOCKER_PATH
+
+function makeTapir {
+   DOCKER_REPO=$1
+   DOCKER_PROJECT=$2
+
+   # Check dependencies:
+
+   echo "Checking NPM..."
+   $(npm -v 2>&1 >/dev/null)
+   if [ $? -ne 0 ]; then
+      echo "Can't find NPM, it should be installed"
+
+      RETVAL=1
+      return 1
+   fi
+
+   echo "Checking Docker..."
+   $(docker -v 2>&1 | grep version > /dev/null)
+   if [ $? -ne 0 ]; then
+      echo "Can't find Docker, it should be installed"
+
+      RETVAL=1
+      return 1
+   fi
+
+    echo "Build Project:"
+    cd $MAIN_DIR
+    npm run distclean
+    npm install
+    npm run build
+
+    echo "Configure Docker:"
+    cd $DOCKER_DIR
+
+    cp -pRf $MAIN_DIR/htdocs $DOCKER_DIR/tapir-hoof/
+
+    DOCKER_PROXY=""
+    read -p "Are you want to use proxy? (y/N) " -n 1 -r
+    echo    # (optional) move to a new line
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+       read -p "Please, enter address and port of http and https proxy: (e.g. 127.0.0.1:3128) " -r
+       DOCKER_PROXY="--build-arg http_proxy=http://$REPLY --build-arg https_proxy=http://$REPLY"
+    fi
+
+    if [ ! -z $DOCKER_REPO ] && [ ! -z $DOCKER_PROJECT ]; then
+       cd $DOCKER_DIR/tapir-captain
+       docker build -t $DOCKER_REPO/$DOCKER_PROJECT/tapir-hoof $DOCKER_PROXY .
+    else
+        cd $DOCKER_DIR/tapir-hoof
+        docker build -t tapir-hoof $DOCKER_PROXY .
+    fi
+
+    return 0
+}
+
+function pushTapir {
+   DOCKER_REPO=$1
+   DOCKER_PROJECT=$2
+
+   if [ ! -z $DOCKER_REPO ] && [ ! -z $DOCKER_PROJECT ]; then
+        docker logout
+        docker login --username $DOCKER_PROJECT $DOCKER_REPO
+
+        docker push $DOCKER_REPO/$DOCKER_PROJECT/tapir-hoof .
+   else
+      echo "Nothing to do..."
+   fi
+}
+
+function cleanTapir {
+    rm -rf $DOCKER_DIR/tapir-hoof/htdocs
+
+    return 0
+}
+
+function distcleanTapir {
+    echo "Not implemented yet"
+
+    RETVAL=1
+    return 1
+}
+
+function main {
+   RETVAL=0
+   case "$1" in
+      make)
+         # Make Tapir Hoof docker images
+         makeTapir $2 $3
+         ;;
+      push)
+         # Push Tapir Hoof docker images to repository
+         pushTapir $2 $3
+         ;;
+      clean)
+         # Clean temporary files
+         cleanTapir
+         ;;
+      distclean)
+         # Delete Tapir Hoof docker local images
+         distcleanTapir
+         ;;
+      *)
+         echo
+         echo "Script for build Tapir Hoof Docker"
+         echo
+         echo "Usage: $0 {make|push|clean|distclean} REPOSITORY LOGIN"
+         echo "where "
+         echo "       make       - build Tapir docker images"
+         echo "       push       - upload Tapir docker images to private repository"
+         echo "       clean      - clean temporary files"
+         echo "       distclean  - clean all containers of Tapir"
+         echo ""
+         echo "       REPOSITORY - Private repository"
+         echo "       LOGIN      - Username of private repository"
+
+         RETVAL=1
+         ;;
+      esac
+
+   exit $RETVAL
+}
+
+main $1
