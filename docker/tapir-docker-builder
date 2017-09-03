@@ -18,7 +18,7 @@
 #
 # Script for build
 #
-# Version 1.1
+# Version 2.2.20170903
 # Created by windsent (c) 2017
 #
 
@@ -26,25 +26,14 @@ DOCKER_DIR=${PWD}
 MAIN_DIR=$DOCKER_DIR/..
 PACKAGE_DIR=$MAIN_DIR/package
 DOCKER_PATH=""
-NPM_PATH=""
 
-export PATH=$PATH:$NPM_PATH:$DOCKER_PATH
+export PATH=$PATH:$DOCKER_PATH
 
 function makeTapir {
    DOCKER_REPO=$1
    DOCKER_PROJECT=$2
 
    # Check dependencies:
-
-   echo "Checking NPM..."
-   $(npm -v 2>&1 >/dev/null)
-   if [ $? -ne 0 ]; then
-      echo "Can't find NPM, it should be installed"
-
-      RETVAL=1
-      return 1
-   fi
-
    echo "Checking Docker..."
    $(docker -v 2>&1 | grep version > /dev/null)
    if [ $? -ne 0 ]; then
@@ -54,16 +43,8 @@ function makeTapir {
       return 1
    fi
 
-    echo "Build Project:"
-    cd $MAIN_DIR
-    npm run distclean
-    npm install
-    npm run build
-
-    echo "Configure Docker:"
-    cd $DOCKER_DIR
-
-    cp -pRf $MAIN_DIR/htdocs $DOCKER_DIR/tapir-hoof/
+   echo "Configure Docker:"
+   cd $DOCKER_DIR
 
     DOCKER_PROXY=""
     read -p "Are you want to use proxy? (y/N) " -n 1 -r
@@ -73,26 +54,31 @@ function makeTapir {
        DOCKER_PROXY="--build-arg http_proxy=http://$REPLY --build-arg https_proxy=http://$REPLY"
     fi
 
-    if [ ! -z $DOCKER_REPO ] && [ ! -z $DOCKER_PROJECT ]; then
+   if [ ! -z $DOCKER_REPO ]; then
+      DOCKER_REPO="$DOCKER_REPO/"
+   fi
+   if [ ! -z $DOCKER_PROJECT ]; then
        cd $DOCKER_DIR/tapir-captain
-       docker build -t $DOCKER_REPO/$DOCKER_PROJECT/tapir-hoof $DOCKER_PROXY .
-    else
+       docker build -t $DOCKER_REPO$DOCKER_PROJECT/tapir-hoof $DOCKER_PROXY .
+   else
         cd $DOCKER_DIR/tapir-hoof
         docker build -t tapir-hoof $DOCKER_PROXY .
-    fi
+   fi
 
-    return 0
+   return 0
 }
 
 function pushTapir {
    DOCKER_REPO=$1
    DOCKER_PROJECT=$2
 
-   if [ ! -z $DOCKER_REPO ] && [ ! -z $DOCKER_PROJECT ]; then
-        docker logout
-        docker login --username $DOCKER_PROJECT $DOCKER_REPO
-
-        docker push $DOCKER_REPO/$DOCKER_PROJECT/tapir-hoof .
+   if [ ! -z $DOCKER_REPO ]; then
+      docker logout
+      docker login --username $DOCKER_PROJECT $DOCKER_REPO
+      DOCKER_REPO="$DOCKER_REPO/"
+   fi
+   if [ ! -z $DOCKER_PROJECT ]; then
+      docker push $DOCKER_REPO$DOCKER_PROJECT/tapir-hoof .
    else
       echo "Nothing to do..."
    fi
@@ -102,13 +88,6 @@ function cleanTapir {
     rm -rf $DOCKER_DIR/tapir-hoof/htdocs
 
     return 0
-}
-
-function distcleanTapir {
-    echo "Not implemented yet"
-
-    RETVAL=1
-    return 1
 }
 
 function main {
@@ -126,23 +105,18 @@ function main {
          # Clean temporary files
          cleanTapir
          ;;
-      distclean)
-         # Delete Tapir Hoof docker local images
-         distcleanTapir
-         ;;
       *)
          echo
          echo "Script for build Tapir Hoof Docker"
          echo
-         echo "Usage: $0 {make|push|clean|distclean} REPOSITORY LOGIN"
+         echo "Usage: $0 {make|push|clean} LOGIN REPOSITORY"
          echo "where "
          echo "       make       - build Tapir docker images"
          echo "       push       - upload Tapir docker images to private repository"
          echo "       clean      - clean temporary files"
-         echo "       distclean  - clean all containers of Tapir"
          echo ""
-         echo "       REPOSITORY - Private repository"
          echo "       LOGIN      - Username of private repository"
+         echo "       REPOSITORY - Private repository"
 
          RETVAL=1
          ;;
