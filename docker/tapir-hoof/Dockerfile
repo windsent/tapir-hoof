@@ -1,7 +1,6 @@
 FROM node AS uibuilder
 
-# TODO: change windsent to sip3io
-RUN git clone https://github.com/windsent/tapir-hoof.git
+RUN git clone https://github.com/sip3io/tapir-hoof.git
 WORKDIR /tapir-hoof
 
 RUN npm run distclean
